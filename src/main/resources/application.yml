@@ -1,0 +1,141 @@
+app:
+    emailsniffer:
+        casesubscriber:
+            caseInitiator_url: http://case-initiator
+            casemodel: NBModel
+            owner: rest-admin
+            processdata:
+                ApplicationNumber: A\d+
+                AuthorityLevel: \s(5|10)\s+
+                DocumentID: DOC\d+
+                PolicyNumber: P\d+
+                SourceofBusiness: \s(MED|NONMED)\s+
+                SumAssured: \s(50000|100000)\s+
+                caseType: \s(CLEAN|NONCLEAN)\s+
+            processname: FlowableNBProcess
+        cmarchival:
+            attributes:
+                ApplicationNumber: A\d+
+                AuthorityLevel: \s(5|10)\s+
+                DocumentID: DOC\d+
+                PolicyNumber: P\d+
+                SourceofBusiness: \s(MED|NONMED)\s+
+                SumAssured: \s(50000|100000)\s+
+                caseType: \s(CLEAN|NONCLEAN)\s+
+            dynamicAttributes: from,to,cc,sentOn,ReceivedOn,MessageID
+            indexClassName: Email
+            password: password
+            server: DSCPDB9
+            username: sonali
+attributeMap:
+    DOCID: DocumentID
+authMode: IMPLICIT
+camel:
+    router:
+        broker: localhost:9092
+        topic: emailSniffer
+candela:
+    correspondence:
+        kafka:
+            topic: correspondence
+        messageQueue: kafka
+    email:
+        fileName: mail.eml
+        location: C:\cm9\TestEmailSniffer\
+        password: dsemailsniffer123
+        readFolder: copiedFolder
+        server: imaps://imap.gmail.com
+        username: dsemailsniffer@gmail.com
+        zip:
+            folder: C:\cm9\TestEmailSniffer\
+    kafka:
+        brokers: localhost:9092
+    router:
+        kafka:
+            consumer:
+                group:
+                    id: routerKafkaConsumer
+casecommunication:
+    emailbodytagreplace:
+        jsfilename: emailBodyTagReplace.js
+        methodname: emailBodyTagReplace
+    extension:
+        tagreplace:
+            url: http://extension-service/api/extension-service/tag-replace
+correspondence:
+    extension:
+        tagreplace:
+            url: http://extension-service/api/extension-service/tag-replace
+    queue:
+        name: correspondenceMailQueue
+    templatetagreplace:
+        jsfilename: templateBodyTagReplace.js
+        methodname: templateBodyTagReplace
+ecm:
+    service:
+        password: password
+        server: DSOS
+        user: admin
+encryptedPassword: ENC(xImzSLtOx/2kHdrvk34Dev4qfLSs8sTJ8PZSoag/Sqc=)
+host: smtp.gmail.com
+jasypt:
+    encryptor:
+        bean: encryptor
+logging:
+    file: C:\cm9\backendlogs\CaseCommunication-Service.log
+    level:
+        root: DEBUG
+mailConfigUser: dsemailsniffer@gmail.com
+mailProperties:
+    auth: mail.smtp.auth
+    authValue: true
+    debug: mail.debug
+    debugValue: true
+    enable: mail.smtp.starttls.enable
+    enableValue: true
+    protocol: mail.transport.protocol
+    protocolName: smtp
+    activityConfiguration:
+        '[NB UW]':
+            '[Data Entry/Verification]':
+                auth: mail.smtp.auth
+                authValue: true
+                debug: mail.debug
+                debugValue: true
+                enable: mail.smtp.starttls.enable
+                enableValue: true
+                protocol: mail.transport.protocol
+                protocolName: smtp
+                port: 587
+                host: smtp.gmail.com
+                mailConfigUser: dsemailsniffer@gmail.com
+                encryptedPassword: ENC(xImzSLtOx/2kHdrvk34Dev4qfLSs8sTJ8PZSoag/Sqc=)
+password: password
+port: 587
+server:
+    port: 8181
+serverName: DSOS
+spring:
+    activemq:
+        broker-url: tcp://localhost:61616
+        in-memory: true
+        password: admin
+        pool:
+            enabled: false
+        user: admin
+    application:
+        name: casecommunicationservice
+    datasource:
+        driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        password: password
+        url: jdbc:sqlserver://localhost;databaseName=CMDB
+        username: admin
+    jpa:
+        hibernate:
+            ddl-auto: none
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.SQLServer2012Dialect
+                format_sql: true
+        show-sql: true
+userName: admin
